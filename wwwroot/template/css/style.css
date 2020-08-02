@@ -1334,7 +1334,7 @@ a.home:hover,button.btn1:hover{
 	height: 40px;
 	border: none;
 	text-indent: 100%;
-	background: url(~/template/images/arr.png) no-repeat 0px 0px;
+	background: url(../images/arr.png) no-repeat 0px 0px;
 }
 #toTopHover {
 	width: 40px;
