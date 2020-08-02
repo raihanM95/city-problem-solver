@@ -12,5 +12,10 @@ namespace CityProblemSolver.Controllers
         {
             return View();
         }
+
+        public IActionResult Worker()
+        {
+            return View();
+        }
     }
 }
