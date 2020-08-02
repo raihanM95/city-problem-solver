@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<!-- inner page banner -->
+<section class="inner_page_banner text-center pt-4">
+    <h2 class="page_heading text-uppercase pt-md-5 pt-sm-4">Contact</h2>
+    <h4 class="text-uppercase pt-2"><a asp-controller="Home" asp-action="Index">Home</a> - Contact Page</h4>
+</section>
+<!-- //inner page banner -->
+<!-- Contact -->
+<section class="contact py-5" id="contact-us">
+    <h3 class="heading text-center text-uppercase">Contact Us</h3>
+    <p class="heading-bottom text-center font-italic mb-5">Industrial Revolution Business</p>
+    <div class="container">
+        <div class="row contact-main">
+            <div class="col-md-6 contact-left text-center">
+                <address>
+                    <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> City Fact</p>
+                    <p>Shantipur Rd, Dhaka-1219,</p>
+                    <p>Bangladesh.</p>
+                    <p><i class="fas fa-phone" aria-hidden="true"></i>+(14) 012 345 6789</p>
+                    <p><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:info@example.com">info@examplemail.com</a></p>
+                </address>
+                <div class="social-icons">
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 contact-right">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.0406556416187!2d90.4271957149813!3d23.74592958459167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b86c91c1375b%3A0x74eb006f87a80f8f!2sDhaka%20South%20City%20Corporation%20regional%20office!5e0!3m2!1sen!2sbd!4v1596398811992!5m2!1sen!2sbd" class="map"></iframe>
+            </div>
+
+            <div class="contact-wthree">
+                <form action="#" method="post">
+                    <input type="text" name="User Name" placeholder="First Name" required="">
+                    <input class="email" name="Email" type="email" placeholder="Email" required="">
+                    <input type="text" name="Number" placeholder="Phone Number" required="">
+                    <input class="password" name="password" type="password" placeholder="Password" required="">
+                    <textarea name="Message" placeholder="Message" required=""></textarea>
+                    <input type="submit" value="SUBMIT">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //Contact -->
