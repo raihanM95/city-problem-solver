@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CityProblemSolver.DatabaseContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +25,20 @@ namespace CityProblemSolver
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            //Session
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(86400);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews();
+
+            //Dependency Injection
+            services.AddDbContext<CityProblemSolverDBContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultDBConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +60,10 @@ namespace CityProblemSolver
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //app.UseCookiePolicy();
+            //Session
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
