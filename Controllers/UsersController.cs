@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CityProblemSolver.DatabaseContext;
 using CityProblemSolver.Models;
+using Microsoft.AspNetCore.Http;
+using CityProblemSolver.ViewModels;
 
 namespace CityProblemSolver.Controllers
 {
@@ -19,10 +21,36 @@ namespace CityProblemSolver.Controllers
             _context = context;
         }
 
-        // GET: Users
-        public async Task<IActionResult> Index()
+        // GET: Users/Dashboard
+        public IActionResult Dashboard()
         {
-            return View(await _context.Users.ToListAsync());
+            if (HttpContext.Session.GetString("User") != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("User", "Account");
+            }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("User");
+            return RedirectToAction("User", "Account");
+        }
+
+        // GET: Users
+        public async Task<IActionResult> Users()
+        {
+            if (HttpContext.Session.GetString("UserAdmin") != null)
+            {
+                return View(await _context.Users.Where(m => m.UserType == "User").ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction("Admin", "Account");
+            }
         }
 
         // GET: Users/Details/5
@@ -43,26 +71,45 @@ namespace CityProblemSolver.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
+        //GET: Users/Create
         public IActionResult Create()
         {
-            return View();
+            if (HttpContext.Session.GetString("User") == null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Users");
+            }
         }
 
         // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Phone,NID,Address,UserName,Password,UserType")] User user)
+        public async Task<IActionResult> Create([Bind("ID,Name,Phone,NID,Address,UserName,Password,ConfirmPassword")] Register register)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                // Username is already Exist
+                if (IsUserNameExist(register.UserName))
+                {
+                    ModelState.AddModelError("UserName", "User name already exist");
+                    return View(register);
+                }
+                User _user = new User();
+                _user.Name = register.Name;
+                _user.Phone = register.Phone;
+                _user.NID = register.NID;
+                _user.Address = register.Address;
+                _user.UserName = register.UserName;
+                _user.Password = register.Password;
+                _user.UserType = "User";
+                _context.Add(_user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("User", "Account");
             }
-            return View(user);
+            return View(register);
         }
 
         // GET: Users/Edit/5
@@ -143,6 +190,19 @@ namespace CityProblemSolver.Controllers
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public bool IsUserNameExist(string userName)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserName == userName);
+            if (user != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private bool UserExists(int id)

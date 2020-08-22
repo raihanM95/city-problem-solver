@@ -1,60 +1,120 @@
-﻿@model CityProblemSolver.Models.User
+﻿@model CityProblemSolver.ViewModels.Register
 
 @{
-    ViewData["Title"] = "Create";
+    Layout = null;
 }
 
-<h1>Create</h1>
+<!DOCTYPE HTML>
+<html lang="en">
 
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<head>
+    <title>User</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <!-- Meta tag Keywords -->
+
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+    <!-- css files -->
+    <link href="~/template/css/style2.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <!-- Style-CSS -->
+    <link href="~/template/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- web-fonts -->
+    <link href="//fonts.googleapis.com/css?family=Magra:400,700&amp;subset=latin-ext" rel="stylesheet">
+    <!-- //web-fonts -->
+</head>
+
+<body>
+    <!-- content -->
+    <div class="container-agille">
+        <div class="formBox level-login">
+            <div class="box boxShaddow"></div>
+            <div class="box loginBox">
+                @*<span class="reg_bg"></span>*@
+                <h3>User Reg Here</h3>
+                <form class="form" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="f_row-2">
+                        <input type="text" class="input-field" placeholder="Enter your Name" asp-for="Name">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="f_row-2">
+                        <input type="text" class="input-field" placeholder="Enter your Phone no" asp-for="Phone">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="f_row-2">
+                        <input type="text" class="input-field" placeholder="Enter your NID no" asp-for="NID">
+                        <span asp-validation-for="NID" class="text-danger"></span>
+                    </div>
+                    <div class="f_row-2">
+                        <input type="text" class="input-field" placeholder="Enter your Address" asp-for="Address">
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="f_row-2">
+                        <input type="text" class="input-field" placeholder="Enter Username" asp-for="UserName">
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="f_row-2 last">
+                        <input type="password" id="password1" class="input-field" placeholder="Enter Password" asp-for="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="f_row-2 last">
+                        <input type="password" id="password2" class="input-field" placeholder="Enter Confirm Password" asp-for="ConfirmPassword">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <input class="submit-w3" type="submit" value="Register">
+                    <div class="f_link">
+                        <a asp-area="" asp-controller="Account" asp-action="User">Login Here</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NID" class="control-label"></label>
-                <input asp-for="NID" class="form-control" />
-                <span asp-validation-for="NID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserType" class="control-label"></label>
-                <input asp-for="UserType" class="form-control" />
-                <span asp-validation-for="UserType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <!-- //content -->
+    <!-- copyright -->
+    <div class="footer-w3ls">
+        <h2>
+            Copyright &copy; 2020 - City Problem Solver. All rights reserved
+        </h2>
+    </div>
+    <!-- //copyright -->
+    <!-- js files -->
+    <!-- Jquery -->
+    <script src="~/template/js/jquery-2.2.3.min.js"></script>
+    <!-- //Jquery -->
+    <!-- input fields js -->
+    <script src="~/template/js/input-field.js"></script>
+    <!-- //input fields js -->
+    <!-- password-script -->
+    <script>
+        window.onload = function () {
+            document.getElementById("password1").onchange = validatePassword;
+            document.getElementById("password2").onchange = validatePassword;
+        }
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+        function validatePassword() {
+            var pass2 = document.getElementById("password2").value;
+            var pass1 = document.getElementById("password1").value;
+            if (pass1 != pass2)
+                document.getElementById("password2").setCustomValidity("Passwords Don't Match");
+            else
+                document.getElementById("password2").setCustomValidity('');
+            //empty string means no validation error
+        }
+    </script>
+    <!-- //password-script -->
+    <!-- //js files -->
+</body>
+</html>

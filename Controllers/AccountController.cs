@@ -92,8 +92,38 @@ namespace CityProblemSolver.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult User()
         {
+            if (HttpContext.Session.GetString("User") != null)
+            {
+                return RedirectToAction("Dashboard", "Users");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> User([Bind("UserName,Password")] Login login)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _context.Users
+                .SingleOrDefaultAsync(m => m.UserName == login.UserName && m.Password == login.Password && m.UserType == "User");
+                if (user == null)
+                {
+                    ModelState.AddModelError("Password", "Invalid login attempt!");
+                    return View();
+                }
+                else
+                {
+                    HttpContext.Session.SetString("User", user.UserName);
+                    return RedirectToAction("Dashboard", "Users");
+                }
+            }
             return View();
         }
     }
