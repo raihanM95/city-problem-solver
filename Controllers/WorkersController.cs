@@ -24,7 +24,20 @@ namespace CityProblemSolver.Controllers
         // GET: Workers/Dashboard
         public IActionResult Dashboard()
         {
-            return View();
+            if (HttpContext.Session.GetString("UserWorker") != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Worker", "Account");
+            }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("UserWorker");
+            return RedirectToAction("Worker", "Account");
         }
 
         // GET: Workers/Create
