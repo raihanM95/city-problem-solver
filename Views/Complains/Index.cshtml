@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CityProblemSolver.Models.Complain>
+
+@{
+    ViewData["Title"] = "Complains";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["PageTitle"] = "Complains";
+    ViewData["Location"] = "Complains";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ComplainDate)*@
+                Complain date
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Area.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComplainDate)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID" onclick="return confirm('Are sure wants to delete?');">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

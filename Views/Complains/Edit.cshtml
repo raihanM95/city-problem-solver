@@ -1,0 +1,41 @@
+﻿@model CityProblemSolver.ViewModels.ComplainViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["PageTitle"] = "Edit Complain";
+    ViewData["Location"] = "Edit Complain";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="AreaId" class="control-label"></label>
+                <select asp-for="AreaId" class="form-control" asp-items="ViewBag.AreaId"></select>
+                <span asp-validation-for="AreaId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="ComplainDate" />
+            <div class="form-group">
+                <label asp-for="ComplainDescription" class="control-label"></label>
+                <textarea asp-for="ComplainDescription" class="form-control"></textarea>
+                <span asp-validation-for="ComplainDescription" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="SolvedDescription" class="control-label"></label>
+            <input asp-for="SolvedDescription" class="form-control" />
+            <span asp-validation-for="SolvedDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SolvedDate" class="control-label"></label>
+                <input asp-for="SolvedDate" class="form-control" />
+                <span asp-validation-for="SolvedDate" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

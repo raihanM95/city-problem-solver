@@ -5,30 +5,35 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CityProblemSolver.Models
+namespace CityProblemSolver.ViewModels
 {
-    public class Complain
+    public class ComplainViewModel
     {
         public int ID { get; set; }
 
+        [Display(Name = "Area")]
         public int AreaId { get; set; }
-        public Area Area { get; set; }
+        //public Area Area { get; set; }
 
-        [Required]
+        [Display(Name = "Complain date")]
+        [Required(ErrorMessage = "Please select complain date")]
         [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime? ComplainDate { get; set; }
 
-        [Required]
+        [Display(Name = "Complain description")]
+        [Required(ErrorMessage = "Write complain description")]
         public string ComplainDescription { get; set; }
 
+        [Display(Name = "Solved date")]
         [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime? SolvedDate { get; set; }
 
+        [Display(Name = "Solved description")]
         public string SolvedDescription { get; set; }
 
-        [Required]
+        //[Required]
         [StringLength(10)]
         public string Status { get; set; }
     }
