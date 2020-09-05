@@ -74,6 +74,7 @@ namespace CityProblemSolver.Controllers
                 _user.UserName = register.UserName;
                 _user.Password = register.Password;
                 _user.UserType = "Worker";
+
                 _context.Add(_user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Workers));

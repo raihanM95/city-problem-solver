@@ -4,14 +4,16 @@ using CityProblemSolver.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CityProblemSolver.Migrations
 {
     [DbContext(typeof(CityProblemSolverDBContext))]
-    partial class CityProblemSolverDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200904060812_ChangedComplains")]
+    partial class ChangedComplains
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,13 +30,11 @@ namespace CityProblemSolver.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoadNo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -63,8 +63,7 @@ namespace CityProblemSolver.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -114,85 +113,11 @@ namespace CityProblemSolver.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CityProblemSolver.Models.UserComplain", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ComplainId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ComplainId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserComplains");
-                });
-
-            modelBuilder.Entity("CityProblemSolver.Models.WorkerComplain", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ComplainId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ComplainId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("WorkerComplains");
-                });
-
             modelBuilder.Entity("CityProblemSolver.Models.Complain", b =>
                 {
                     b.HasOne("CityProblemSolver.Models.Area", "Area")
                         .WithMany()
                         .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CityProblemSolver.Models.UserComplain", b =>
-                {
-                    b.HasOne("CityProblemSolver.Models.Complain", "Complain")
-                        .WithMany()
-                        .HasForeignKey("ComplainId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CityProblemSolver.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CityProblemSolver.Models.WorkerComplain", b =>
-                {
-                    b.HasOne("CityProblemSolver.Models.Complain", "Complain")
-                        .WithMany()
-                        .HasForeignKey("ComplainId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CityProblemSolver.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

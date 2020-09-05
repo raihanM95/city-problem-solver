@@ -15,5 +15,13 @@ namespace CityProblemSolver.DatabaseContext
         }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Area> Areas { get; set; }
+
+        public DbSet<Complain> Complains { get; set; }
+
+        public DbSet<UserComplain> UserComplains { get; set; }
+
+        public DbSet<WorkerComplain> WorkerComplains { get; set; }
     }
 }
