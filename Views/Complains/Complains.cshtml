@@ -1,0 +1,91 @@
+﻿@model CityProblemSolver.ViewModels.ComplainViewModel
+
+@{
+    ViewData["Title"] = "Complains";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["PageTitle"] = "Complains";
+    ViewData["Location"] = "Complains";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AreaId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Complains)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @if (item.Status == "Pending")
+                    {
+                        <input type="submit" value="Assign" class="btn btn-info" onclick="GetId(@item.ID)" data-toggle="modal" data-target="#AssignModal"> <label> |</label>
+                    }
+                    <a asp-action="Detailss" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID" onclick="return confirm('Are sure wants to delete?');">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="AssignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Assign Worker</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="Assign">
+                <div class="modal-body">
+                    @Html.HiddenFor(m => m.WorkerComplain.ComplainId, new { @id = "CId" })
+                    <div class="form-group">
+                        <label>Select worker:</label>
+                        @*<select asp-for="" class="form-control" asp-items="ViewBag.WorkerId"></select>*@
+                        @*@Html.DropDownListFor(m => m.WorkerComplain.UserId, new SelectList(ViewBag.WorkerId, "ID", "Name"), htmlAttributes: new { @class = "form-control" })*@
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-success" type="submit">Assign</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var id;
+    function GetId(e) {
+        id = e
+        $("#CId").val(id);
+    }
+</script>

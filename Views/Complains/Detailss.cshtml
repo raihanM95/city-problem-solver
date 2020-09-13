@@ -1,0 +1,75 @@
+﻿@model CityProblemSolver.ViewModels.ComplainViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["PageTitle"] = "Complain Details";
+    ViewData["Location"] = "Complain Details";
+}
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Complainer
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserComplain.User.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserComplain.User.Phone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserComplain.User.Phone)
+        </dd>
+        <dt class="col-sm-2">
+            Area
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Complain.Area.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Complain date
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Complain.ComplainDate)
+        </dd>
+        <dt class="col-sm-2">
+            Complain description
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Complain.ComplainDescription)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Complain.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Complain.Status)
+        </dd>
+
+        <dt class="col-sm-2">
+            Worker
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WorkerComplain.User.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WorkerComplain.User.Phone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WorkerComplain.User.Phone)
+        </dd>
+        <dt class="col-sm-2">
+            Solved date
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Complain.SolvedDate)
+        </dd>
+        <dt class="col-sm-2">
+            Solved description
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Complain.SolvedDescription)
+        </dd>
+    </dl>
+</div>

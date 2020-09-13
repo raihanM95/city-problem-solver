@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CityProblemSolver.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,5 +37,10 @@ namespace CityProblemSolver.ViewModels
         //[Required]
         [StringLength(10)]
         public string Status { get; set; }
+
+        public IEnumerable<Complain> Complains { get; set; }
+        public Complain Complain { get; set; }
+        public UserComplain UserComplain { get; set; }
+        public WorkerComplain WorkerComplain { get; set; }
     }
 }
