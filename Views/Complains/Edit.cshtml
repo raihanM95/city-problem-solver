@@ -23,16 +23,17 @@
                 <textarea asp-for="ComplainDescription" class="form-control"></textarea>
                 <span asp-validation-for="ComplainDescription" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Status" />
             @*<div class="form-group">
-            <label asp-for="SolvedDescription" class="control-label"></label>
-            <input asp-for="SolvedDescription" class="form-control" />
-            <span asp-validation-for="SolvedDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SolvedDate" class="control-label"></label>
-                <input asp-for="SolvedDate" class="form-control" />
-                <span asp-validation-for="SolvedDate" class="text-danger"></span>
-            </div>*@
+        <label asp-for="SolvedDescription" class="control-label"></label>
+        <input asp-for="SolvedDescription" class="form-control" />
+        <span asp-validation-for="SolvedDescription" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SolvedDate" class="control-label"></label>
+            <input asp-for="SolvedDate" class="form-control" />
+            <span asp-validation-for="SolvedDate" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

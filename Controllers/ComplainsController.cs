@@ -151,6 +151,7 @@ namespace CityProblemSolver.Controllers
                 _complain.AreaId = complain.AreaId;
                 _complain.ComplainDate = complain.ComplainDate;
                 _complain.ComplainDescription = complain.ComplainDescription;
+                _complain.Status = complain.Status;
 
                 ViewData["AreaId"] = new SelectList(_context.Areas, "ID", "Name", complain.AreaId);
                 return View(_complain);
@@ -164,7 +165,7 @@ namespace CityProblemSolver.Controllers
         // POST: Complains/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,AreaId,ComplainDate,ComplainDescription")] ComplainViewModel complain)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,AreaId,ComplainDate,ComplainDescription,Status")] ComplainViewModel complain)
         {
             if (id != complain.ID)
             {
@@ -181,7 +182,7 @@ namespace CityProblemSolver.Controllers
                     _complain.AreaId = complain.AreaId;
                     _complain.ComplainDate = complain.ComplainDate;
                     _complain.ComplainDescription = complain.ComplainDescription;
-                    _complain.Status = "Pending";
+                    _complain.Status = complain.Status;
 
                     _context.Update(_complain);
                     await _context.SaveChangesAsync();
@@ -223,7 +224,7 @@ namespace CityProblemSolver.Controllers
                 {
                     Complains = await cityProblemSolverDBContext.ToListAsync()
                 };
-                ViewData["WorkerId"] = new SelectList(_context.Users.Where(t => t.UserType == "Worker"), "ID", "Name");
+                //ViewData["WorkerId"] = new SelectList(_context.Users.Where(t => t.UserType == "Worker"), "ID", "Name");
                 return View(complainViewModel);
             }
             else
@@ -266,25 +267,176 @@ namespace CityProblemSolver.Controllers
             }
         }
 
-        // POST: Complains/Create
+        // Get: Complains/Assign
+        [HttpGet]
+        public async Task<IActionResult> Assign(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var complain = await _context.Complains.FindAsync(id);
+            if (complain == null)
+            {
+                return NotFound();
+            }
+
+            if (HttpContext.Session.GetString("UserAdmin") != null)
+            {
+                
+                ViewData["WorkerId"] = new SelectList(_context.Users.Where(t => t.UserType == "Worker"), "ID", "Name");
+                var workerComplain = new WorkerComplain();
+                workerComplain.ComplainId = id;
+
+                return View(workerComplain);
+            }
+            else
+            {
+                return RedirectToAction("Admin", "Account");
+            }
+        }
+
+        // POST: Complains/Assign
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Assign([Bind("UserId,ComplainId")] WorkerComplain workerComplain)
         {
+            if (workerComplain.ComplainId == null)
+            {
+                return NotFound();
+            }
+
+            var complain = await _context.Complains.FindAsync(workerComplain.ComplainId);
+            if (complain == null)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(workerComplain);
                 await _context.SaveChangesAsync();
 
-                Complain _complain = new Complain();
-                _complain.Status = "Working";
-                _context.Update(_complain);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    complain.Status = "Working";
 
+                    _context.Update(complain);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                
                 return RedirectToAction(nameof(Complains));
             }
             ViewData["WorkerId"] = new SelectList(_context.Users.Where(t => t.UserType == "Worker"), "ID", "Name");
             return View(workerComplain);
+        }
+
+        // For Worker
+        // GET: Complains/Assigned
+        public async Task<IActionResult> Assigned()
+        {
+            if (HttpContext.Session.GetString("UserWorker") != null)
+            {
+                var user = HttpContext.Session.GetString("UserWorker").ToString();
+                var aUser = _context.Users.Where(u => u.UserName == user).SingleOrDefault();
+                var aWorkerComplain = _context.WorkerComplains.Where(c => c.UserId == aUser.ID).ToList();
+
+                List<Complain> complainList = new List<Complain>();
+
+                foreach (var complain in aWorkerComplain)
+                {
+                    if (complainList.Count > 0)
+                    {
+                        if (complainList.Where(c => c.ID == complain.ComplainId).ToList().Count == 0)
+                        {
+                            complainList.AddRange(_context.Complains.Include(c => c.Area).Where(c => c.ID == complain.ComplainId));
+                        }
+                    }
+                    else
+                    {
+                        complainList.AddRange(_context.Complains.Include(c => c.Area).Where(c => c.ID == complain.ComplainId));
+                    }
+                }
+
+                return View(complainList);
+            }
+            else
+            {
+                return RedirectToAction("Worker", "Account");
+            }
+        }
+
+        // Get: Complains/Solved
+        [HttpGet]
+        public async Task<IActionResult> Solved(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var complain = await _context.Complains.FindAsync(id);
+            if (complain == null)
+            {
+                return NotFound();
+            }
+
+            if (HttpContext.Session.GetString("UserWorker") != null)
+            {
+                SolvedViewModel solvedViewModel = new SolvedViewModel
+                {
+                    ID = id
+                };
+                
+                return View(solvedViewModel);
+            }
+            else
+            {
+                return RedirectToAction("Worker", "Account");
+            }
+        }
+
+        // POST: Complains/Solved
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Solved([Bind("ID,SolvedDate,SolvedDescription")] SolvedViewModel solvedViewModel)
+        {
+            if (solvedViewModel.ID == null)
+            {
+                return NotFound();
+            }
+
+            var complain = await _context.Complains.FindAsync(solvedViewModel.ID);
+            if (complain == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    complain.Status = "Solved";
+                    complain.SolvedDate = solvedViewModel.SolvedDate;
+                    complain.SolvedDescription = solvedViewModel.SolvedDescription;
+
+                    _context.Update(complain);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+
+                return RedirectToAction(nameof(Assigned));
+            }
+            
+            return View(solvedViewModel);
         }
 
         private bool ComplainExists(int id)

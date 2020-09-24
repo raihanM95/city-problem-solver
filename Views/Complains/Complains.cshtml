@@ -44,7 +44,8 @@
                 <td>
                     @if (item.Status == "Pending")
                     {
-                        <input type="submit" value="Assign" class="btn btn-info" onclick="GetId(@item.ID)" data-toggle="modal" data-target="#AssignModal"> <label> |</label>
+                        <a asp-action="Assign" asp-route-id="@item.ID">Assign</a> <label> |</label>
+                        @*<input type="submit" value="Assign" class="btn btn-info" onclick="GetId(@item.ID)" data-toggle="modal" data-target="#AssignModal"> <label> |</label>*@
                     }
                     <a asp-action="Detailss" asp-route-id="@item.ID">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.ID" onclick="return confirm('Are sure wants to delete?');">Delete</a>
@@ -54,7 +55,7 @@
     </tbody>
 </table>
 
-<!-- Modal -->
+ @*Modal 
 <div class="modal fade" id="AssignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -69,8 +70,8 @@
                     @Html.HiddenFor(m => m.WorkerComplain.ComplainId, new { @id = "CId" })
                     <div class="form-group">
                         <label>Select worker:</label>
-                        @*<select asp-for="" class="form-control" asp-items="ViewBag.WorkerId"></select>*@
-                        @*@Html.DropDownListFor(m => m.WorkerComplain.UserId, new SelectList(ViewBag.WorkerId, "ID", "Name"), htmlAttributes: new { @class = "form-control" })*@
+                        <select asp-for="" class="form-control" asp-items="ViewBag.WorkerId"></select>
+                        @Html.DropDownListFor(m => m.WorkerComplain.UserId, new SelectList(ViewBag.WorkerId, "ID", "Name"), htmlAttributes: new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -88,4 +89,4 @@
         id = e
         $("#CId").val(id);
     }
-</script>
+</script>*@

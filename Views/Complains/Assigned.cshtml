@@ -1,0 +1,54 @@
+﻿@model IEnumerable<CityProblemSolver.Models.Complain>
+
+
+@{
+    ViewData["Title"] = "Complains";
+    Layout = "~/Views/Shared/_LayoutWorker.cshtml";
+    ViewData["PageTitle"] = "Complains";
+    ViewData["Location"] = "Complains";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ComplainDate)*@
+                Complain date
+            </th>
+            
+            <th>
+                Complain description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainDate)
+                </td>
+            
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainDescription)
+                </td>
+                <td>
+                    @if (item.Status == "Working")
+                    {
+                        <a asp-action="Solved" asp-route-id="@item.ID">Solve</a>
+                    }
+                    @if (item.Status == "Solved")
+                    {
+                        @Html.DisplayFor(modelItem => item.Status)
+                    }
+                </td>
+            </tr>
+    }
+    </tbody>
+</table>
